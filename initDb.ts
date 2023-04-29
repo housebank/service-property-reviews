@@ -6,18 +6,20 @@ function initializeDatabaseTableWithBaseSettingsPlugin(fastify: FastifyInstance,
                                             done: FastifyPluginCallback) {
   fastify.decorate('initializeDatabaseTableWithBaseSettings', async () => {
     const { serviceName } = opts;
+    // @ts-ignore
+    const { knex } = fastify;
     try{
       // @ts-ignore
-      const exists = await fastify.knex.schema.hasTable(serviceName);
+      const exists = await knex.schema.hasTable(serviceName);
       if (!exists) {
         // @ts-ignore
-        const createTable = await fastify.knex.schema.createTable(serviceName, (table: any) => {
+        const createTable = await knex.schema.createTable(serviceName, (table: any) => {
           table.increments('id').primary();
           table.integer('property_id').unsigned();
           table.integer('rating');
           table.text('comment');
-          table.timestamp('created_at', { useTz: true }).defaultTo(fastify.knex.fn.now(6));
-          table.timestamp('updated_at', { useTz: true }).defaultTo(fastify.knex.fn.now(6));
+          table.timestamp('created_at', { useTz: true }).defaultTo(knex.fn.now(6));
+          table.timestamp('updated_at', { useTz: true }).defaultTo(knex.fn.now(6));
           table.integer('user_id').unsigned();
           table.foreign("property_id").references("id").inTable("property").onDelete("CASCADE");
           table.foreign("user_id").references("id").inTable("user").onDelete("CASCADE");
