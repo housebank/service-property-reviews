@@ -15,9 +15,9 @@ function initializeDatabaseTableWithBaseSettingsPlugin(fastify: FastifyInstance,
           table.increments('id').primary();
           table.integer('property_id').unsigned();
           table.integer('rating');
-          table.specificType('comment', 'text[]');
-          table.timestamp('created_at', { useTz: true });
-          table.timestamp('updated_at', { useTz: true });
+          table.text('comment');
+          table.timestamp('created_at', { useTz: true }).defaultTo(fastify.knex.fn.now(6));
+          table.timestamp('updated_at', { useTz: true }).defaultTo(fastify.knex.fn.now(6));
           table.integer('user_id').unsigned();
           table.foreign("property_id").references("id").inTable("property").onDelete("CASCADE");
           table.foreign("user_id").references("id").inTable("user").onDelete("CASCADE");
