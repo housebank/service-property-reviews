@@ -16,8 +16,8 @@ function initializeDatabaseTableWithBaseSettingsPlugin(fastify: FastifyInstance,
         const createTable = await knex.schema.createTable(serviceName, (table: any) => {
           table.increments('id').primary();
           table.integer('property_id').unsigned();
-          table.integer('rating');
-          table.text('comment');
+          table.integer('rating').notNullable();
+          table.text('comment').notNullable();
           table.timestamp('created_at', { useTz: true }).defaultTo(knex.fn.now(6));
           table.timestamp('updated_at', { useTz: true }).defaultTo(knex.fn.now(6));
           table.integer('user_id').unsigned();

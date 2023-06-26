@@ -5,5 +5,5 @@ export interface IServiceDefault {
   rating?: number;
   created_at?: Date|string;
   updated_at?: Date|string;
-  comment?: string[];
+  comment?: string;
 }
